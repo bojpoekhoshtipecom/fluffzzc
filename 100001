@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>aHalfBRWS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 10px; /* کاهش پدینگ برای جلوگیری از مشکل در صفحات باریک */
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%; /* عرض 100% برای موبایل */
+            max-width: 400px;
+        }
+        h1 {
+            color: #333;
+            font-size: 1.6em; /* اندازه فونت برای موبایل */
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        textarea {
+            min-height: 50px;
+            max-height: 300px;
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+            text-align: center;
+            resize: none; 
+            overflow-y: hidden; 
+        }
+        textarea:focus {
+            border-color: #0056b3;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #c82333;
+            border: none;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(200, 35, 51, 0.2);
+        }
+        button:hover {
+            background-color: #a71c24;
+            transform: translateY(-2px);
+        }
+        button:active {
+            background-color: #961b22;
+        }
+
+        /* Media Queries برای بهینه‌سازی بیشتر */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.4em; /* اندازه فونت کوچکتر */
+            }
+            .container {
+                padding: 15px; /* پدینگ کمتر برای موبایل */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>aHalfBRWS</h1>
+        <form id="urlForm">
+            <textarea id="urlInput" placeholder="آدرس URL را وارد کنید یا چیزی بنویسید" rows="1" required></textarea>
+            <button type="submit">✨</button>
+        </form>
+    </div>
+
+    <script>
+        const textarea = document.getElementById("urlInput");
+
+        // تغییر ارتفاع textarea به صورت دینامیک
+        textarea.addEventListener("input", function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        textarea.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // جلوگیری از تغییر خط
+                document.getElementById("urlForm").dispatchEvent(new Event('submit'));
+            }
+        });
+
+        document.getElementById("urlForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var url = textarea.value.trim();
+
+            if (!url) {
+                alert("لطفاً یک آدرس معتبر وارد کنید.");
+                return;
+            }
+
+            // بررسی الگوی URL
+            var urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(:[0-9]{1,5})?(\/.*)?$/;
+
+            if (urlPattern.test(url)) {
+                if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                    url = "https://" + url;
+                }
+            } else {
+                var query = url.replace(/\s+/g, "+");
+                url = "https://www.google.com/search?q=" + query;
+            }
+
+            window.location.assign(url);
+        });
+    </script>
+
+</body>
+</html>
